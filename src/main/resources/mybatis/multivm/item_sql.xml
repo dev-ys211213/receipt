@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="kr.co.ubcn.receipt.mapper.multivm.BingoItemMapper">
+
+	<!--<select id="selectColumnToProductInfo" parameterType="java.util.Map" resultType="kr.co.ubcn.receipt.model.PurchaseItemList">
+		SELECT COUNT(*) AS ITEMCOUNT FROM TB_SALES TS
+		WHERE TERMINAL_ID ='2000048254'
+		  AND TRANSACTION_NO ='220714005853137397'
+	</select>-->
+
+	<select id="selectMultivmSalesItemList"  parameterType="java.util.Map" resultType="kr.co.ubcn.receipt.model.PurchaseItemList">
+		SELECT IFNULL(sp.PRODUCT_AMOUNT,0) AS IPRODUCT_PRICE,p.NAME AS PRODUCT_NAME, IFNULL(sp.COUNT,0) AS QTY FROM TB_SALES s
+		INNER JOIN TB_SALES_PRODUCT sp ON s.TRANSACTION_NO = sp.TRANSACTION_NO
+		INNER JOIN TB_PRODUCT p ON s.COMPANY_SEQ=p.COMPANY_SEQ AND s.ORGANIZATION_SEQ=p.ORGANIZATION_SEQ AND sp.PRODUCT_CODE=p.CODE
+		WHERE 1=1
+		  AND sp.SHIP_RESULT = 'T'
+		  AND s.TRANSACTION_DATE = #{tranDate}
+		  AND s.TRANSACTION_TIME = #{tranTime}
+		  AND s.TERMINAL_ID = #{terminalId}
+	</select>
+
+	<!--<select id="selectSalesInfo" parameterType="java.util.Map" resultType="kr.co.ubcn.receipt.model.SalesInfo">
+		SELECT TERMINAL_ID, TRANSACTION_NO, ORGANIZATION_SEQ, TRANSACTION_DATE AS TRAN_DATE
+			 , TRANSACTION_TIME  AS TRAN_DATE, PAY_STEP, CANCEL_DATE
+		FROM TB_SALES TS
+		WHERE TERMINAL_ID = #{terminalId}
+		  AND TRANSACTION_NO = #{transactionNo}
+	</select>-->
+</mapper>

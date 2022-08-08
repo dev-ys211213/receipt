@@ -1,0 +1,79 @@
+@charset "utf-8";
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
+@import url(https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css);
+
+/* basic */
+* { margin:0; padding:0; font-family:'Noto Sans KR',Sans-serif; color:#000; word-break: keep-all; letter-spacing: -0.01em; }
+html, body { width:100%; height:100%; }
+body { margin:0; padding:0; font-size:16px; font-family:'Noto Sans KR', sans-serif, 'dotum','돋움'!important; font-weight: 300; background: #f3f7fd;}
+/*body ::-webkit-scrollbar{display:none;}*/
+html, h1, h2, h3, h4, h5, h6, form, fieldset, img { margin:0; padding:0; border:0; }
+
+/* 제목태그설정 */
+h1, h2, h3, h4, h5, h6 { margin:0; padding:0; font-size:1em; font-family: 'Noto Sans KR', '돋움', 'dodum', helvetica, sans-serif; }
+
+/* 시멘틱태그설정 */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display:block; }
+
+/* 링크 */
+a { display: inline-block; color: #002060; }
+a:link, a:visited { color:#002060; text-decoration:none; }
+a:hover, a:focus, a:active { color:#002060; text-decoration:none; }
+
+/* 기타설정 */
+img {/* max-width:200px; vertical-align:top;max-height: 200px */}
+ul, ol, li { list-style:none; margin:0; padding:0; }
+p { word-break:keep-all; }
+b { font-weight:400; }
+table { border-spacing: 0; border-collapse: collapse; }
+table th { /*font-weight:400;*/}
+
+/* 전체 */
+#wrap {position: relative; display:block; /*min-width:840px;*/ width:100%; height:auto; overflow-y: scroll;}
+#wrap:after {display:block; content:''; clear:both;}
+
+/* 공통 : 팝업 배경 */
+#shadow_bg {position:fixed; left:0; top:0; width:100%; height:100%; background: rgba(0,0,0,0.7); z-index:99999999;}
+
+/* 공통 : 이미지 팝업 */
+#modal_pop {position:fixed; left:50%; top:50%; transform: translate(-50%, -50%); z-index:999999999;}
+.pop_box  {position:fixed; left:50%; top:50%; transform: translate(-50%, -50%); width: 460px;  border-radius: 12px; background: #fff; z-index: 10000; font-size: 16px; }
+.pop_title{overflow:hidden; width: auto; border-bottom: 1px solid #e6e6e6; height:60px; line-height: 60px; padding: 0 20px; background: #fff; border-radius: 16px 16px 0 0 ;}
+.pop_title>h2{float:left; font-size: 20px; font-family:'NanumSquare',san-serif; font-weight: 600;}
+.pop_title>span>a{float:right;}
+.pop_title>span>a>img{margin-top:10px; margin-right: -10px;}
+.pop_txt{text-align:center; font-size: 16px; margin-bottom: 10px;}
+
+#receipt {width: 260px; margin:0 auto 20px auto; padding: 0px 20px 30px 20px; border: 1px solid #eee; border-radius: 6px; box-shadow: 0px 0px 5px 0px rgba(125, 136, 151, 0.15); border: 1px solid #e5e5e5;  background:#fff url(../images/bingomulti_receipt.png); background-size: 180px; background-repeat: repeat-y; background-position:top center; margin-top:30px; }
+.receipt_wrap{ height: 700px; overflow-y: auto;}
+.row {display:flex;}
+.cell {display:inline; flex:auto; font-size: 14px; line-height: 18px; letter-spacing: -0.6px; word-break:initial; color:#1f1f1f;}
+.r_title{padding:20px 0; font-weight:bold; font-size: 22px; text-align: center; line-height: 28px;}
+.t_right{text-align:right;}
+.receipt_info>div>span{font-size: 12px;}
+.receipt_list{margin:10px 0;}
+.receipt_list>div>span:nth-child(1){width:130px; border: 0px solid red;}
+.receipt_list>div>span:nth-child(2){width:50px;  border: 0px solid red;}
+.receipt_list>div>span:nth-child(3){width:80px;  border: 0px solid red;}
+.receipt_list>div.row{padding:px 0;}
+.receipt_list>div.pad11{padding:10px 0 10px 0;}
+.receipt_list>div.pad12{padding:10px 0 0 0;}
+.receipt_list>div.pad13{padding-bottom:10px;}
+.receipt_list>div.pad14{padding-top:8px;}
+.receipt_list>div.mar11{margin-top:10px;}
+.amount{font-size: 16px; font-weight: bold;}
+.line11{border-top:1px solid #4b4b4b;}
+.line12{border-bottom:1px dashed #4b4b4b;}
+.line13{border-bottom:1px solid #ddd; padding-bottom: 10px;}
+.line14{border-top:1px dashed #4b4b4b;}
+.btn_receipt_save{width: 300px; height: 50px; line-height: 50px; text-align: center; color: #fff; background: #000; border-radius: 6px; margin: 0 auto  30px auto; font-size: 16px; cursor: pointer;}
+.bg_gray{background:#f8f8f8;}
+
+
+@media all and (max-width:1023px){
+    #modal_pop{position:fixed; left: 0 ; top: 0 ; transform:  none ; z-index:999999999;}
+    .pop_box  {position:fixed; left: 0 ; top: 0 ; transform: none ; width: 100%; height: 100%; border-radius: 0; overflow-y: scroll;}
+    .pop_title{position:fixed; width:calc(100% - 40px); z-index:99999999; background: #fff; border-radius: 0;}
+    #receipt { margin-top: 90px !important;}
+    .receipt_wrap{ height: auto; overflow-y:none;}
+} 

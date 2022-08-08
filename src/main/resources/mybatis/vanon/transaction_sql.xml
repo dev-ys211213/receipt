@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="kr.co.ubcn.receipt.mapper.vanon.VanonMapper">
+
+	<!--<select id="select1" parameterType="java.util.Map" resultType="kr.co.ubcn.receipt.model.ReceiptInfo">
+		SELECT COUNT(*) AS ITEM_COUNT2 FROM `#{tableName}`
+		WHERE TRANDATE = #{tranDate}
+		AND ROWNUM<![CDATA[<=]]>1
+		AND length(pd_column) <![CDATA[>]]>10
+	</select>-->
+
+	<select id="selectReceiptInfo" parameterType="java.util.Map" resultType="kr.co.ubcn.receipt.model.ReceiptInfo">
+		SELECT TLF.UNIQUENO AS TRANSACTION_NO, TLF.TERMINALID, TLF.TRANSEQNO, TO_CHAR(TO_DATE(TRANDATE,'YYYYMMdd'),'YYYY-MM-DD') AS TRANDATE
+			 , SUBSTR(TRANTIME, 0,2)||':'||SUBSTR(TRANTIME,3,2)||':'||SUBSTR(TRANTIME,5,2) AS TRANTIME
+			 ,TLF.CARDNO, TLF.TOTALAMT ,TLF.BUSINESSNO, TLF.ISSUERNAME
+			 ,TLF.AUTHNO, TLF.PD_COLUMN, TLF.PG_MERCH_NBR, TO_CHAR(TLF.INS_DT,'YYYY-MM-DD HH24:MI:SS') AS INS_DT
+			 ,TB.ADDRESS, TB.ADDRESSDETAIL, TB.PRESENTNAME, TB.TEL, TLF.REVERSALTYPE, TLF.CANCELDATE
+			 ,ROUND(TLF.TOTALAMT*10/110,0) AS TAX, T.MERCHANTNAME
+		FROM ${tableName} TLF
+				 INNER JOIN TBLTERMMST@vanbt T ON TLF.TERMINALID = T.TERMINALID
+				 INNER JOIN TBLBIZMST@vanbt TB ON TB.BUSINESSNO = T.BUSINESSNO  AND TB.BIZTYPE =T.BIZTYPE
+		WHERE TLF.TRANDATE = #{tranDate}
+		  AND TLF.TRANTIME = #{tranTime}
+		  AND TLF.TRANSEQNO = #{tranSeqNo}
+		  AND TLF.TERMINALID = #{terminalId}
+	</select>
+
+	<!--<select id="selectReceiptInfo" parameterType="java.util.Map" resultType="kr.co.ubcn.receipt.model.ReceiptInfo">
+		SELECT TLF.UNIQUENO AS TRANSACTION_NO, TLF.TERMINALID
+		FROM ${tableName} TLFd
+		WHERE TLF.TRANDATE = #{tranDate}
+		  AND TLF.TRANTIME = #{tranSeqNo}
+		  AND TLF.TRANSEQNO = #{terminalId}
+		  AND TLF.TERMINALID = #{tranDate}
+	</select>-->
+</mapper>

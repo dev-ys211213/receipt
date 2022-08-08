@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="kr.co.ubcn.receipt.mapper.vmms.ItemMapper">
+
+	<!--<select id="selectColumnToProductInfo" parameterType="java.util.Map" resultType="kr.co.ubcn.receipt.model.PurchaseItemList">
+		SELECT COUNT(*) AS ITEMCOUNT FROM TB_SALES TS
+		WHERE TERMINAL_ID ='2000048254'
+		  AND TRANSACTION_NO ='220714005853137397'
+	</select>-->
+
+	<select id="selectPurchaseItemList" parameterType="java.util.Map" resultType="kr.co.ubcn.receipt.model.PurchaseItemList">
+		SELECT NVL(TPI.AMOUNT,0) AS PRODUCT_PRICE
+			 ,NVL(TP.NAME,'미등록 상품') AS PRODUCT_NAME, 1 AS QTY
+		FROM TB_PURCHASE_ITEMS TPI
+				 INNER JOIN TB_VENDING_MACHINE VM ON TPI.TERMINAL_ID = VM.TERMINAL_ID
+				 INNER JOIN TB_VENDING_MACHINE_PRODUCT VMP ON VM.SEQ = VMP.VM_SEQ AND TPI.COL_NO = VMP.COL_NO
+				 INNER JOIN TB_PRODUCT TP ON VMP.PRODUCT_SEQ = TP.SEQ
+		WHERE TPI.TERMINAL_ID = #{terminalId}
+		  AND TPI.TRANSACTION_NO = #{transactionNo}
+	</select>
+
+	<select id="selectSalesItemList" parameterType="java.util.Map" resultType="kr.co.ubcn.receipt.model.PurchaseItemList">
+		SELECT NVL(TPI.AMOUNT,0) AS PRODUCT_PRICE
+			 ,NVL(TP.NAME,'미등록 상품') AS PRODUCT_NAME, 1 AS QTY
+		FROM TB_SALES TPI
+				 INNER JOIN TB_VENDING_MACHINE VM ON TPI.TERMINAL_ID = VM.TERMINAL_ID
+				 INNER JOIN TB_VENDING_MACHINE_PRODUCT VMP ON VM.SEQ = VMP.VM_SEQ AND TPI.COL_NO = VMP.COL_NO
+				 INNER JOIN TB_PRODUCT TP ON VMP.PRODUCT_SEQ = TP.SEQ
+		WHERE TPI.TERMINAL_ID = #{terminalId}
+		  AND TPI.TRANSACTION_NO = #{transactionNo}
+	</select>
+
+	<select id="selectSalesInfo" parameterType="java.util.Map" resultType="kr.co.ubcn.receipt.model.SalesInfo">
+		SELECT TERMINAL_ID, TRANSACTION_NO, ORGANIZATION_SEQ, TRANSACTION_DATE AS TRAN_DATE
+			 , TRANSACTION_TIME  AS TRAN_DATE, PAY_STEP, CANCEL_DATE
+		FROM TB_SALES TS
+		WHERE TERMINAL_ID = #{terminalId}
+		  AND TRANSACTION_NO = #{transactionNo}
+	</select>
+</mapper>

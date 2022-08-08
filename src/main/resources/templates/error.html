@@ -1,0 +1,25 @@
+<!--
+<!DOCTYPE html>
+<script type="text/javascript">
+    var msg = "결제 취소된 건은 영수증을 출력할 수 없습니다.";
+    alert(msg);
+    //window.close();
+    //self.opener = self;
+    window.open('','_self').close();
+    //window.close();
+</script>-->
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var message =[[${message}]];
+    alert(message);
+    //window.close();
+    //self.opener = self;
+    window.open('','_self').close();
+    //window.close();
+
+    /*]]>*/
+ </script>
+</html>

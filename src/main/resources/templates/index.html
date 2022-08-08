@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="./css/resset.css">
+    <link rel="stylesheet" href="./css/layout.css">
+    <link rel="stylesheet" href="./css/contents.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=IE9">
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=yes,initial-scale=1.0" />
+</head>
+
+<body>
+<div id="wrap">
+    <!-- body -->
+    <section id="body_wrap">
+        <div id="shadow_bg" style="display:;"></div>
+        <div id="modal_pop" style="display:;">
+            <div class="pop_box bg_gray" style="display:;">
+
+                <div class="pop_title">
+                    <h2>전자영수증 </h2>
+                    <span><a href="javascript:self.opener = self;window.close();"><img src="./images/ic_close.png" alt="닫기"></a></span>
+                </div>
+                <div class="receipt_wrap">
+                    <div id="receipt">
+                        <div class="row">
+                            <span class="cell r_title">유비씨엔 전자영수증</span>
+                        </div>
+
+                        <div class="receipt_info">
+                            <div class="row">
+                                <span class="cell" th:text="${receiptInfo.merchAntName}"></span>
+                            </div>
+                            <div class="row">
+                                <span class="cell" th:text="${receiptInfo.address + receiptInfo.addressDetail}"></span>
+                            </div>
+                            <div class="row">
+                                <span class="cell">대표 [[${receiptInfo.presentName}]] [[${receiptInfo.businessNo}]]</span>
+                                <span class="cell t_right">T&nbsp;:&nbsp;[[${receiptInfo.tel}]]</span>
+                            </div>
+                            <div class="row">
+                                <span class="cell">[[${receiptInfo.tranDate}]] [[${receiptInfo.tranTime}]]</span>
+                            </div>
+                        </div>
+                        <div class="receipt_list">
+                            <div class="row line11 line12 pad11">
+                                <span class="cell">상품명</span>
+                                <span class="cell t_right">수량</span>
+                                <span class="cell t_right">금액</span>
+                            </div>
+                            <!--<div class="row pad12">
+                                <span class="cell">포카리스웨트포카리스웨트포카카카카카카카</span>
+                                <span class="cell t_right">1</span>
+                                <span class="cell t_right">1,000</span>
+                            </div>-->
+                            <div class="row pad14" th:each="product:${productList}"><!--상품목록 추가 되면 pad14 클래스로 적용-->
+                                <span class="cell" th:text="${product.productName}"></span>
+                                <span class="cell t_right" th:text="${#numbers.formatInteger(product.qty, 0, 'COMMA')}"></span>
+                                <span class="cell t_right" th:text="${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}"></span>
+                            </div>
+                            <div class="row pad12 mar11 line14" >
+                                <span class="cell">과세금액</span>
+                                <span class="cell t_right" th:text="${#numbers.formatInteger(receiptInfo.totalAmt-receiptInfo.tax, 0, 'COMMA')}"></span>
+                            </div>
+                            <div class="row ">
+                                <span class="cell">부가세</span>
+                                <span class="cell t_right" th:text="${#numbers.formatInteger(receiptInfo.tax, 0, 'COMMA')}"></span>
+                            </div>
+                            <div class="row line12 pad13">
+                                <span class="cell">합계금액</span>
+                                <span class="cell t_right" th:text="${#numbers.formatInteger(receiptInfo.totalAmt, 0, 'COMMA')}"></span>
+                            </div>
+                            <!--<div class="row line12 pad11">
+                                <span class="cell">할인금액</span>
+                                <span class="cell t_right">-&nbsp;200</span>
+                            </div>-->
+                            <div class="row line12 pad11">
+                                <span class="cell amount">결제금액</span>
+                                <span class="cell amount t_right"th:text="${#numbers.formatInteger(receiptInfo.totalAmt, 0, 'COMMA')}"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <span class="cell">결제수단</span>
+                            <span class="cell t_right" th:text="${receiptInfo.issuerName}"></span>
+                        </div>
+                        <div class="row">
+                            <span class="cell">카드번호</span>
+                            <span class="cell t_right" th:text="${receiptInfo.cardNo}"></span>
+                        </div>
+                        <div class="row">
+                            <span class="cell">가맹번호</span>
+                            <span class="cell t_right" th:text="${receiptInfo.pgMerchNbr}"></span>
+                        </div>
+                        <div class="row">
+                            <span class="cell">승인일시</span>
+                            <span class="cell t_right" th:text="${receiptInfo.insDt}"></span>
+                        </div>
+                        <div class="row ">
+                            <span class="cell">승인번호</span>
+                            <span class="cell t_right" th:text="${receiptInfo.authNo}"></span>
+                        </div>
+                    </div>
+                    <div class="btn_receipt_save" onclick="onSave()">전자영수증 저장하기</div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="./js/html2canvas.js"></script>
+<script type="text/javascript">
+    function onSave() {
+        //이미지로 저장
+        //var div = $('#')
+        div = document.getElementById("receipt")
+        html2canvas(div).then(function (canvas) {
+            var element = document.createElement("a");
+            element.href = canvas.toDataURL();
+            element.download = 'receipt.png';
+
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        });
+
+    }
+
+
+</script>
+</html>

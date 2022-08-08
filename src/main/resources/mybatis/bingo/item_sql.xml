@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="kr.co.ubcn.receipt.mapper.bingo.BingoItemMapper">
+
+	<!--<select id="selectColumnToProductInfo" parameterType="java.util.Map" resultType="kr.co.ubcn.receipt.model.PurchaseItemList">
+		SELECT COUNT(*) AS ITEMCOUNT FROM TB_SALES TS
+		WHERE TERMINAL_ID ='2000048254'
+		  AND TRANSACTION_NO ='220714005853137397'
+	</select>-->
+
+	<select id="selectBingoSalesItemList"  parameterType="java.util.Map" resultType="kr.co.ubcn.receipt.model.PurchaseItemList">
+		SELECT IFNULL(B.PRODUCT_NM,'미등록 상품') AS PRODUCT_NAME, IFNULL(A.PRICE,0) AS PRODUCT_PRICE,	IFNULL(A.QTY,0) AS QTY
+		FROM TB_SALES_ITEM A , TB_PRODUCT_MST B, TB_CATEGORY C, TB_SALES D
+		WHERE D.AUTH_NO  = #{authNo}
+		  AND A.TRANS_NO = D.TRANS_NO
+		  AND D.COMPANY_SEQ = B.COMPANY_SEQ
+		  AND D.COMPANY_SEQ = C.COMPANY_SEQ
+		  AND A.PRODUCT_CD = B.PRODUCT_CD
+		  AND B.CATEGORY_SEQ = C.CATEGORY_SEQ
+	</select>
+
+	<!--<select id="selectSalesInfo" parameterType="java.util.Map" resultType="kr.co.ubcn.receipt.model.SalesInfo">
+		SELECT TERMINAL_ID, TRANSACTION_NO, ORGANIZATION_SEQ, TRANSACTION_DATE AS TRAN_DATE
+			 , TRANSACTION_TIME  AS TRAN_DATE, PAY_STEP, CANCEL_DATE
+		FROM TB_SALES TS
+		WHERE TERMINAL_ID = #{terminalId}
+		  AND TRANSACTION_NO = #{transactionNo}
+	</select>-->
+</mapper>
